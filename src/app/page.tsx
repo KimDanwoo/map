@@ -1,5 +1,7 @@
-import Map from '@/components/Map'
+import MapSection from '@/components/map/MapSection'
 
 export default function Home() {
-  return <Map />
+  const stores = fetch('../../public/stores.json')
+
+  return <MapSection />
 }
