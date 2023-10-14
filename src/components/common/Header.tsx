@@ -1,17 +1,16 @@
-'use client'
-import useMap from '@/hooks/map'
-import { useRouter } from 'next/navigation'
-import React, { useCallback } from 'react'
-import copy from 'copy-to-clipboard'
+import React from 'react'
+import MainLogo from './MainLogo'
 
-export default function Header() {
-  const { resetMapOptions, getMapOptions } = useMap()
-  const router = useRouter()
-  const replaceAndCopyUrl = useCallback(() => {
-    const mapOptions = getMapOptions()
-    const query = `/?zoom=${mapOptions.zoom}&lat=${mapOptions.center[0]}&lng=${mapOptions.center[1]}`
-    router.replace(query)
-    copy(location.origin + query)
-  }, [router, getMapOptions])
-  return <>Header</>
+type Props = {
+  onClickLogo?: () => void
+  rightElements?: React.ReactElement
+}
+
+export default function Header({ onClickLogo, rightElements }: Props) {
+  return (
+    <header className="flex justify-between p-2 bg-none fixed z-10 w-full">
+      <MainLogo onClickLogo={onClickLogo} />
+      {rightElements}
+    </header>
+  )
 }
