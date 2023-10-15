@@ -36,10 +36,8 @@ export default function Markers() {
     }
   }
 
-  console.log(map)
-  console.log(stores)
-
   if (!map || !stores) return null
+  
   return (
     <>
       {stores.map((store) => (

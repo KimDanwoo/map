@@ -1,10 +1,12 @@
 import { Store } from '@/models/map'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { mutate } from 'swr'
 
 export const CURRENT_STORE_KEY = '/current-store'
 
 const useCurrentStore = () => {
+  const [expended, setExpended] = useState(false)
+
   const setCurrentStore = useCallback((store: Store) => {
     mutate(CURRENT_STORE_KEY, store)
   }, [])
@@ -14,6 +16,8 @@ const useCurrentStore = () => {
   }, [])
 
   return {
+    expended,
+    setExpended,
     setCurrentStore,
     clearCurrentStore,
   }

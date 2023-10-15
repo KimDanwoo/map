@@ -1,29 +1,56 @@
-import { CURRENT_STORE_KEY } from '@/hooks/currentStore'
 import React from 'react'
+import { CURRENT_STORE_KEY } from '@/hooks/currentStore'
 import useSWR from 'swr'
-import styles from './PlaceDetail.module.css'
-import { IoIosArrowUp } from 'react-icons/io'
 import Image from 'next/image'
+import { CiLocationOn, CiPhone } from 'react-icons/ci'
 
-export default function PlaceDetail() {
+type Props = {
+  expended: boolean
+}
+
+export default function PlaceDetail({ expended }: Props) {
   const { data: currentStore } = useSWR(CURRENT_STORE_KEY)
-  console.log(currentStore)
+
   return (
-    <div
-      className={`${styles.mapDetail} ${
-        currentStore ? 'h-[80px]' : 'h-[40px]'
-      }`}
-    >
-      <div className="flex">
-        {!currentStore && <p>매장을 선택해주세요</p>}
-        {currentStore && <p>{currentStore.name}</p>}
-        <button disabled={!currentStore} className="disabled:text-gray-300">
-          <IoIosArrowUp />
-        </button>
+    <div>
+      <div className="flex justify-center">
+        {currentStore.images.map((image: string, idx: number) => (
+          <Image
+            src={image}
+            className="w-[140px] h-[100px] m-2"
+            width={120}
+            height={40}
+            alt=""
+            priority
+            key={idx}
+          />
+        ))}
       </div>
-      {currentStore && (
-        <div>
-          {/* <Image src={currentStore.images[0]} width={120} height={120} alt="" /> */}
+      {expended && (
+        <div className="p-4">
+          <h4 className="font-bold">설명</h4>
+          <p>{currentStore.description}</p>
+          <h4 className="font-bold">기본정보</h4>
+          <p>
+            <CiLocationOn />
+            <span className="ml-2">{currentStore.address}</span>
+          </p>
+          <p>
+            <CiPhone />
+            <span className="ml-2">{currentStore.phone}</span>
+          </p>
+          <h4 className="font-bold">메뉴</h4>
+          {currentStore.menus.map(
+            (
+              { name, price }: { name: string; price: string },
+              index: number
+            ) => (
+              <p key={index}>
+                <span>{name}</span>
+                <span className="ml-2">{price}</span>
+              </p>
+            )
+          )}
         </div>
       )}
     </div>

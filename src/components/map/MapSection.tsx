@@ -3,17 +3,20 @@ import React, { useCallback, useEffect } from 'react'
 import Map from './Map'
 import useStores from '@/hooks/stores'
 import useMap from '@/hooks/map'
-import { NaverMap } from '@/models/map'
+import { NaverMap, Store } from '@/models/map'
 import Markers from './Markers'
 import useCurrentStore from '@/hooks/currentStore'
 import Header from '../common/Header'
-import { useRouter } from 'next/navigation'
 import copy from 'copy-to-clipboard'
 import Button from '../common/Button'
-import PlaceDetail from '../place/PlaceDetail'
+import PlaceToolbar from '../place/PlaceToolbar'
+import { useRouter } from 'next/navigation'
 
-export default function MapSection() {
-  const stores = require('../../../public/stores.json')
+type Props = {
+  stores: Store[]
+}
+
+export default function MapSection({ stores }: Props) {
   const { initializeStores } = useStores()
   const { initializeMap } = useMap()
   const { clearCurrentStore } = useCurrentStore()
@@ -23,7 +26,7 @@ export default function MapSection() {
   const replaceAndCopyUrl = useCallback(() => {
     const mapOptions = getMapOptions()
     const query = `/?zoom=${mapOptions.zoom}&lat=${mapOptions.center[0]}&lng=${mapOptions.center[1]}`
-    router.replace(query)
+    router.push(query)
     copy(location.origin + query)
   }, [router, getMapOptions])
 
@@ -49,7 +52,7 @@ export default function MapSection() {
       />
       <Map onLoad={onLoadMap} />
       <Markers />
-      <PlaceDetail />
+      <PlaceToolbar />
     </>
   )
 }

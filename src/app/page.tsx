@@ -1,7 +1,7 @@
 import MapSection from '@/components/map/MapSection'
 
-export default function Home() {
-  const stores = fetch('../../public/stores.json')
+export default async function Home() {
+  const stores = require('../../public/stores.json')
 
-  return <MapSection />
+  return <MapSection stores={stores} />
 }

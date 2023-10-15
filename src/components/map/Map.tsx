@@ -11,7 +11,7 @@ type Props = {
   initialZoom?: number
   onLoad?: (map: NaverMap) => void
 }
-
+ 
 const Map = ({
   mapId = 'map',
   initialCenter = INITIAL_CENTER,
